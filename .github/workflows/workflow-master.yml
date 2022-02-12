@@ -1,0 +1,39 @@
+name: Main Workflow
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
+jobs:
+  test-flow:
+    name: Workflow
+    runs-on: ubuntu-18.04
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dev dependencies
+        run: yarn install
+
+      - name: Create Databse
+        run: sudo docker-compose -f docker-compose.test.yml -p testing up -d
+
+      - name: Create env file
+        run: |
+          cat << EOF > .env
+          DATABASE_URL=mongodb://localhost:27017/local?retryWrites=false
+          EOF
+
+      - name: Run the tests
+        run: yarn test:ci
+
+      - uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: true
+          verbose: true
+
+          
