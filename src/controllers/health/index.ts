@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { error } from "../../services";
 
-async function Health(req: Request, res: Response) {
+async function Health(_req: Request, res: Response) {
   try {
     return res.status(200).json({
       status: "success",

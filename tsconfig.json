@@ -13,7 +13,7 @@
     "node_modules",
     "**/*.test.ts",
     "**/**/*.test.ts",
-    "__tests__/**",
-    "__tests__/**/**"
+    "tests/**",
+    "tests/**/**"
   ]
 }
